@@ -49,6 +49,7 @@ int main() {
     int die = 0;
     while(1) {
       cnt++;
+      
       queue<pair<int,int>> q;
       vector<pair<int,int>> order;
       for(int i = 0; i < 3; i++) {
@@ -101,6 +102,7 @@ int main() {
             vis[nx][ny] = vis[cur.X][cur.Y] + 1;
           }
         }
+ 
         if(len < 1000) {
           order.push_back({x,y});
         }
@@ -123,15 +125,6 @@ int main() {
         }
       }
       /*
-      cout << "\n";
-      for(int i = 0; i < n; i++) {
-        for(int j = 0; j < m; j++) {
-          cout << board[i][j] << " ";
-        }
-        cout << "\n";
-      }
-      
-      
       cout << "\n";
       for(int i = 0; i < n; i++) {
         for(int j = 0; j < m; j++) {
