@@ -49,7 +49,6 @@ void rotate(int num, int d) {
     }
   }
 }
-
 int main() {
   ios::sync_with_stdio(0);
   cin.tie(0);
@@ -74,7 +73,6 @@ int main() {
       posx = ox + dx[dir];
       posy = oy + dy[dir];
     }
-    
     if(dir == 0 || dir == 2) {
       rotate(1,dir);
     }
@@ -86,7 +84,6 @@ int main() {
     q.push({posx,posy});
     int sc = board[posx][posy];
     int cnt = 1;
-    //cout << posx << " " << posy << "\n";
     while(!q.empty()) {
       auto cur = q.front();
       q.pop();
@@ -104,32 +101,13 @@ int main() {
         cnt++;
       }
     }
-    //cout << sc << " " << cnt << "  scosdfsdf" << "\n";
     ans += (sc*cnt);
-    /*
-     cout << "\n";
-    for(int i = 0; i < 4; i++) {
-        cout << dice[1][i] << " ";
-      }
-    cout << "side " <<"\n";
-    for(int i = 0; i < 4; i++) {
-        cout << dice[0][i] << " ";
-      }
-     cout << "\n";
-    */
     if(dir == 0 || dir == 2) {
-      
-     
       if(dice[1][3] < sc) {
         dir = (dir+1) % 4;
       }
       else if(dice[1][3] > sc) {
-        if(dir == 0) {
-          dir = 3;
-        }
-        else {
-          dir = (dir-1) % 4;
-        }
+        dir = (dir+3) % 4;
       }
     }
     else if(dir == 1 || dir == 3) {
@@ -137,12 +115,7 @@ int main() {
         dir = (dir+1) % 4;
       }
       else if(dice[0][3] > sc) {
-        if(dir == 0) {
-          dir = 3;
-        }
-        else {
-          dir = (dir-1) % 4;
-        }
+        dir = (dir+3) % 4;
       }
     }
     k--;
