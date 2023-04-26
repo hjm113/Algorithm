@@ -60,8 +60,6 @@ int main() {
       tie(x,y,dir) = air[i];
       int nx = x + dx[dir];
       int ny = y + dy[dir];
-      //cout << "\n";
-      //cout << nx << " " << ny << "\n";
       tmp[nx][ny] = count;
       dist.push_back({nx,ny});
       while(1) {
@@ -78,7 +76,6 @@ int main() {
               if(ax < 1 || ax > n || ay < 1 || ay > m) {
                 continue;
               }
-              //cout << ox << oy << ax << ay << " " << wall[ox][oy][ax][ay] << "\n";
               if(wall[ox][oy][ax][ay] == 0) {
                 if(tmp[ax][ay] > 0) {
                   continue;
@@ -123,17 +120,12 @@ int main() {
           break;
         }
       }
-      //cout << "\n";
       for(int w = 1; w <= n; w++) {
         for(int u = 1; u <= m; u++) {
           ans[w][u] += tmp[w][u];
-          //cout << ans[w][u] << " ";
         }
-        //cout << "\n";
       }
     }
-    
-    
     int atmp[25][25] = {};
     for(int i = 1; i <= n; i++) {
       for(int j = 1; j <= m; j++) {
@@ -195,20 +187,9 @@ int main() {
         out = 1;
       }
     }
-    /*
-       cout << "\n";
-      for(int w = 1; w <= n; w++) {
-        for(int u = 1; u <= m; u++) {
-          cout << ans[w][u] << " ";
-        }
-        cout << "\n";
-      }
-    */
     if(out == 0) {
       break;
     }
   }
   cout << choco;
-  
 }
-
