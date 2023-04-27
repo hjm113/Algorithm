@@ -15,17 +15,25 @@ int tmp[110][110];
 deque<int> water[110];
 int dx[4] = {0, 0, 1, -1};
 int dy[4] = {1, -1, 0, 0};
-void flip(int h2, int len) {
-  int copy[110][110] = {};
-  for(int i = 0; i < h2; i++) {
-    for(int j = 0; j < len; j++) {
-      copy[i][len-j] = tmp[i][j];
+void flat(int h) {
+  deque<int> sto;
+  while(1) {
+    int out = 0;
+    for(int i = 0; i < h; i++) {
+      if(water[i].size() == 0) {
+        out = 1;
+        break;
+      }
+      sto.push_back(water[i].front());
+      water[i].pop_front();
+    }
+    if(out == 1) {
+      break;
     }
   }
-  for(int i = 0; i < h2; i++) {
-    for(int j = 0; j < len; j++) {
-      tmp[i][j] = copy[i][j];
-    }
+  while(!sto.empty()) {
+    water[0].push_front(sto.back());
+    sto.pop_back();
   }
 }
 void adjust() {
@@ -49,7 +57,6 @@ void adjust() {
         if(water[i][j] > water[nx][ny]) {
           int check = abs(num-water[nx][ny]) / 5;
           if(i == 0 && j == 2) {
-            //cout << nx << ny << " " << check << "\n";
           }
           sub[nx][ny] += check;
           sub[i][j] -= check;
@@ -57,26 +64,6 @@ void adjust() {
       }
     }
   }
-  /*
-  cout << "\n";
-      for(int i = 0; i < 10; i++) {
-        for(int j = 0; j < 10; j++) {
-          if(water[i].size() > 0) {
-            cout << water[i][j] << " ";
-          }
-          else {
-            cout << 0 << " ";
-          }
-          
-        }
-        cout << "\n";
-      }
-   cout << "\n";
-      for(int i = 0; i < 10; i++) {
-        cout << water[i].size();
-        cout << "\n";
-      }
-      */
   for(int i = 0; i < n; i++) {
     for(int j = 0; j < water[i].size(); j++) {
       if(sub[i][j] > 0) {
@@ -85,8 +72,6 @@ void adjust() {
     }
   }
 }
-
-
 void rotate(int x, int y) {
   int copy[110][110] = {};
   for(int i = 0; i < x; i++) {
@@ -128,21 +113,6 @@ int main() {
     int st = water[0][0];
     water[0].pop_front();
     water[1].push_front(st);
-    /*
-    cout << "\n";
-      for(int i = 0; i < 10; i++) {
-        for(int j = 0; j < 10; j++) {
-          if(water[i].size() > 0) {
-            cout << water[i][j] << " ";
-          }
-          else {
-            cout << 0 << " ";
-          }
-          
-        }
-        cout << "\n";
-      }
-    */
     int cntx = 2;
     int cnty = 1;
     int cnt = 0;
@@ -165,21 +135,6 @@ int main() {
         }
       }
       h1 = 1 + cnty;
-      /*
-       cout << "\n";
-      for(int i = 0; i < 10; i++) {
-        for(int j = 0; j < 10; j++) {
-          if(water[i].size() > 0) {
-            cout << water[i][j] << " ";
-          }
-          else {
-            cout << 0 << " ";
-          }
-          
-        }
-        cout << "\n";
-      }
-      */
       if(cnt % 2 == 0) {
         cnty++;
       }
@@ -189,56 +144,7 @@ int main() {
       cnt++;
     }
     adjust();
-    /*
-     cout << "\n";
-      for(int i = 0; i < 10; i++) {
-        for(int j = 0; j < 10; j++) {
-          if(water[i].size() > 0) {
-            cout << water[i][j] << " ";
-          }
-          else {
-            cout << 0 << " ";
-          }
-          
-        }
-        cout << "\n";
-      }
-    */
-    //cout << h1 << "he";
-    deque<int> sto;
-    while(1) {
-      int out = 0;
-      for(int i = 0; i < h1; i++) {
-        if(water[i].size() == 0) {
-          out = 1;
-          break;
-        }
-        sto.push_back(water[i].front());
-        water[i].pop_front();
-      }
-      if(out == 1) {
-        break;
-      }
-    }
-    while(!sto.empty()) {
-      water[0].push_front(sto.back());
-      sto.pop_back();
-    }
-    /*
-    cout << "\n";
-    for(int i = 0; i < 10; i++) {
-      for(int j = 0; j < 10; j++) {
-        if(water[i].size() > 0) {
-          cout << water[i][j] << " ";
-        }
-        else {
-          cout << 0 << " ";
-        }
-        
-      }
-      cout << "\n";
-    }
-    */
+    flat(h1);
     int h2 = 1;
     int len = n/2;
     int count = 2;
@@ -262,25 +168,7 @@ int main() {
       len /= 2;
     }
     adjust();
-    //cout << h2 << "he";
-    while(1) {
-      int out = 0;
-      for(int i = 0; i < h2; i++) {
-        if(water[i].size() == 0) {
-          out = 1;
-          break;
-        }
-        sto.push_back(water[i].front());
-        water[i].pop_front();
-      }
-      if(out == 1) {
-        break;
-      }
-    }
-    while(!sto.empty()) {
-      water[0].push_front(sto.back());
-      sto.pop_back();
-    }
+    flat(h2);
     int mx = 0;
     int min = 100000;
     for(int i = 0; i < n; i++) {
