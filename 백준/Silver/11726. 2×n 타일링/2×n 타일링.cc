@@ -11,7 +11,7 @@ using namespace std;
 using ll = long long;
 #define X first
 #define Y second
-long long dp[1005];
+int dp[1005];
 int t, n;
 int main(void){
   ios::sync_with_stdio(0);
