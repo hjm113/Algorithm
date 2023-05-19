@@ -54,27 +54,17 @@ int main(void) {
   ll e = vc[0].Y;
   ll t = e;
   ll ans = 0;
-  for(int i = 0; i < n; i++) {
-    if(e >= vc[i].X) {
-      if(t < vc[i].Y) {
-        t = vc[i].Y;
-      }
+  for(int i = 1; i < n; i++) {
+    if(vc[i].X <= e && vc[i].Y >= e) {
+      e = vc[i].Y;
     }
-    else {
+    else if(vc[i].Y > e){
+      ans += (e-s);
       s = vc[i].X;
       e = vc[i].Y;
-      t = e;
-    }
-    if(e < vc[i+1].X) {
-      ans += (t-s);
-      s = t;
-      e = t;
-    }
-    if(i == n-1 && t > s) {
-      ans += (t-s);
     }
     //cout << ans << "\n";
   }
   //cout << "\n";
-  cout << ans;
+  cout << ans + (e-s);
 }
