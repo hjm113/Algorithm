@@ -20,15 +20,7 @@ bool cmp(tuple<int,int,int> a, tuple<int,int,int> b) {
   tie(ax,ay,az) = a;
   int bx,by,bz;
   tie(bx,by,bz) = b;
-  if(ay < by) {
-    return true;
-  }
-  else if(ay > by) {
-    return false;
-  }
-  else {
-    return ax < bx;
-  }
+  return ay < by;
 }
 
 int main(void) {
