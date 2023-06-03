@@ -1,47 +1,40 @@
-#include <stdio.h>
-#include <limits.h>
-#include <string.h>
-#include <stdlib.h>
-
-typedef struct str12 {
-  int val;
-  int idx;
-} coord;
-
-int compare(const void* a, const void* b) {
-  coord num1 = *(coord*)a;
-  coord num2 = *(coord*)b;
-  if(num1.val < num2.val) {
-    return -1;
+#include <iostream>
+#include <queue>
+#include <stack>
+#include <tuple>
+#include <deque>
+#include <string>
+#include <algorithm>
+#include <climits>
+#include <cmath>
+using namespace std;
+using ll = long long;
+#define X first
+#define Y second
+int ary[1000005];
+int n, m;
+int num[1000005];
+int tmp[1000005];
+int main(void) {
+  ios::sync_with_stdio(0);
+  cin.tie(0);
+  cin >> n;
+  for(int i = 0; i < n; i++) {
+    cin >> ary[i];
+    tmp[i] = ary[i];
   }
-  else if(num1.val > num2.val) {
-    return 1;
-  }
-  return 0;
-}
-
-int main() {
-  int num;
-  scanf("%d", &num);
-  coord arr[num];
-  for(int i = 0; i < num; i++) {
-    scanf("%d", &arr[i].val);
-    arr[i].idx = i;
-  }
-  int ary[num];
-  int min = -1000010000;
-  int count = -1;
-  qsort(arr, num, sizeof(coord), compare);
-  for(int i = 0; i < num; i++) {
-    if(arr[i].val > min) {
-      min = arr[i].val;
-      count++;
+  sort(ary,ary+n);
+  int check = -1000000005;
+  int cnt = 0;
+  for(int i = 0; i < n; i++) {
+    if(check != ary[i]) {
+      num[cnt] = ary[i];
+      cnt++;
     }
-    ary[arr[i].idx] = count;
+    check = ary[i];
   }
-  for(int i = 0; i < num; i++) {
-    printf("%d ", ary[i]);
+  for(int i = 0; i < n; i++) {
+    cout << lower_bound(num,num+cnt,tmp[i]) - &num[0]  << " ";
   }
+  
 }
-  
-  
