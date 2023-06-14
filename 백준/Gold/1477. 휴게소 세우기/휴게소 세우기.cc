@@ -13,7 +13,6 @@ using ll = long long;
 #define Y second
 int n, m, l;
 int ary[55];
-int check[1000][1000];
 int solve(int x) {
   int ans = 0;
   for(int i = 1; i <= n+1; i++) {
@@ -23,7 +22,6 @@ int solve(int x) {
     if(b > 0) {
       a++;
     }
-    check[x][i] = a;
     ans += (a-1);
   }
   return ans;
