@@ -13,16 +13,14 @@ using ll = long long;
 #define X first
 #define Y second
 string s;
-unordered_map<string, int> m;
+unordered_set<string> m;
 int main() {
   ios::sync_with_stdio(0);
   cin.tie(0);
   cin >> s;
   for(int i = 0; i < s.length(); i++) {
-    string tmp = "";
-    for(int j = i; j < s.length(); j++) {
-      tmp += s[j];
-      m[tmp] = 1;
+    for(int j = 1; j+i <= s.length(); j++) {
+      m.insert(s.substr(i,j));
     }
   }
   cout << m.size();
