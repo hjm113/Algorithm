@@ -14,7 +14,7 @@ using ll = long long;
 #define X first
 #define Y second
 multiset<int> ms;
-pair<int,int> ary[250005];
+int ary[250005];
 ll h[250005];
 int n;
 int main() {
@@ -32,24 +32,24 @@ int main() {
     if(ms.lower_bound(x) == ms.end()) {
       auto num = *prev(ms.lower_bound(x));
       h[x] = h[num] + 1;
-      ans += h[num] + 1;
+      ans += h[x];
       ms.insert(x);
       continue;
     }
     auto num2 = *ms.lower_bound(x);
-    if(ary[num2].X == 0) {
+    if(ary[num2] == 0) {
       h[x] = h[num2] + 1;
-      ans += h[num2] + 1;
-      ary[num2].X = 1;
+      //ans += h[num2] + 1;
+      ary[num2] = 1;
       ms.insert(x);
     }
     else {
       auto num3 = *prev(ms.lower_bound(x));
       h[x] = h[num3] + 1;
-      ans += h[num3] + 1;
-      ary[num3].Y = 1;
+      //ans += h[num3] + 1;
       ms.insert(x);
     }
+    ans += h[x];
   }
   /*
   for(int i = 0; i < 10; i++) {
