@@ -27,24 +27,26 @@ int main(){
       adj[x].push_back(n+i);
     }
   }
+  /*
   for(int i = 0; i <= n+1000; i++) {
     vis[i] = -1;
   }
+  */
   queue<int> q;
-  vis[1] = 0;
+  vis[1] = 1;
   q.push(1);
   while(!q.empty()) {
     auto cur = q.front();
     q.pop();
     for(auto nxt : adj[cur]) {
-      if(vis[nxt] > -1) {
+      if(vis[nxt] > 0) {
         continue;
       }
       vis[nxt] = vis[cur] + 1;
       q.push(nxt);
     }
   }
-  if(vis[n] == -1) {
+  if(vis[n] == 0) {
     cout << -1;
     return 0;
   }
