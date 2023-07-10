@@ -20,19 +20,15 @@ queue<int> q;
 int dp[100005];
 
 int dfs(int cur) {
-  int check = 0;
   for(auto nxt : adj[cur]) {
     if(p[cur] == nxt) {
       continue;
     }
-    check = 1;
     p[nxt] = cur;
     dp[cur] += dfs(nxt);
   }
-  if(check == 0) {
-    dp[cur]++;
-    return dp[cur];
-  }
+  dp[cur]++;
+  return dp[cur];
 }
 
 int main(){
