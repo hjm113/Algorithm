@@ -30,18 +30,11 @@ int main(){
     deg[y]++;
     check[x] = 1;
   }
-  for(int i = 1; i <= n; i++) {
-    if(deg[i] == 0) {
-      q.push(i);
-    }
-    /*
-    cout << deg[i] << " ";
-    */
-  }
   /*
   cout << "\n";
   */
   ans[n] = 1;
+  q.push(n);
   while(!q.empty()) {
     auto cur = q.front();
     q.pop();
