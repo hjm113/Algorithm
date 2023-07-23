@@ -32,10 +32,10 @@ int main(){
   for(int i = 0; i < m; i++) {
     int s, e, l;
     cin >> s >> e >> l;
-    d[s][e] = min(d[s][e], l);
-    d[e][s] = min(d[e][s], l);
-    adj[s][e] = max(adj[s][e], l);
-    adj[e][s] = max(adj[e][s], l);
+      d[s][e] = min(d[s][e], l);
+      d[e][s] = min(d[e][s], l);
+      adj[s][e] = max(adj[s][e], l);
+      adj[e][s] = max(adj[e][s], l);
   }
   for(int k = 1; k <= n; k++) {
     for(int i = 1; i <= n; i++) {
@@ -44,21 +44,16 @@ int main(){
       }
     }
   }
-  double ans = mx;
+  double mn = mx;
   for(int k = 1; k <= n; k++) {
     double sum = 0;
     for(int i = 1; i <= n; i++) {
       for(int j = 1; j <= n; j++) {
-        if(d[i][j] == mx) {
-          continue;
-        }
-        double r = adj[i][j] - (d[k][j] - d[k][i]);
-        if(r > 0) {
-          sum = max(sum,r/2+d[k][j]);
-        }
+        double rest = adj[i][j] - (d[k][i]-d[k][j]);
+        sum = max(sum,rest/2+d[k][i]);
       }
     }
-    ans = min(ans,sum);
+    mn = min(mn,sum);
   }
-  printf("%0.1f",ans);
+  printf("%0.1f",mn);
 }
