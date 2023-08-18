@@ -14,74 +14,76 @@ using namespace std;
 #define Y second
 typedef long long ll;
 int t;
-vector<int> f;
-string s, p, order;
-vector<int> ans;
-void solve(string a) {
-  f.clear();
-  f.resize(a.length());
-  int j = 0;
-  for(int i = 1; i < a.length(); i++) {
-    while(j > 0 && a[i] != a[j]) {
-      j = f[j-1];
-    }
-    if(a[i] == a[j]) {
-      f[i] = ++j;
-    }
-  }
-}
-int kmp(string a, string b) {
-  int k = 0;
-  int cnt = 0;
-  for(int i = 0; i < a.length(); i++) {
-    while(k > 0 && s[i] != p[k]) {
-      k = f[k-1];
-    }
-    if(s[i] == p[k]) {
-      if(k == b.length()-1) {
-        cnt++;
-        k = f[k];
-      }
-      else {
-        k++;
-      }
-    }
-  }
-  return cnt;
-}
-
+map<char,int> mp;
+int f[50005];
 int main() {
   ios::sync_with_stdio(0);
   cin.tie(0);
   cin >> t;
   while(t--) {
+    string s, p, order;
     cin >> order >> p >> s;
+    vector<int> ans;
     int no = order.length();
-    ans.clear();
-    map<char,int> mp;
+    int np = p.length();
+    int ns = s.length();
     for(int i = 0; i < no; i++) {
       mp[order[i]] = i;
     }
+    int j = 0;
+    for(int i = 1; i < np; i++) {
+      if(j < 0) {
+        continue;
+      }
+      while(j > 0 && p[i] != p[j]) {
+        j = f[j-1];
+      }
+      if(p[i] == p[j]) {
+        f[i] = ++j;
+      }
+    }
     for(int w = 0; w < no; w++) {
-      if (w > 0) {
-        for (int j = 0; j < p.length(); j++) {
-          p[j] = order[(mp[p[j]] + 1) % no];
+      int k = 0;
+      int cnt = 0;
+      for(int i = 0; i < ns; i++) {
+        if(k < 0) {
+          continue;
+        }
+        while(k > 0 && s[i] != p[k]) {
+          k = f[k-1];
+        }
+        if(s[i] == p[k]) {
+          k++;
+        }
+        if(k == np) {
+          cnt++;
+          k = f[k-1];
         }
       }
-      solve(p);
-      if(kmp(s,p) == 1) {
+      for(int i = 0; i < ns; i++) {
+        int idx = mp[s[i]];
+        if(idx == 0) {
+          idx = no;
+        }
+        idx--;
+        s[i] = order[idx];
+      }
+      if(cnt == 1) {
         ans.push_back(w);
       }
     }
-    if (!ans.size())
-      cout << "no solution\n";
-    else if (ans.size() == 1)
-      cout << "unique: " << ans[0] << "\n";
-    else {
-      cout << "ambiguous: ";
-      for (int x : ans)
-          cout << x << " ";
-      cout << "\n";
+    if(ans.size() == 0) {
+      cout << "no solution";
     }
+    else if(ans.size() == 1) {
+      cout << "unique: ";
+    }
+    else if(ans.size() > 1) {
+      cout << "ambiguous: ";
+    }
+    for(int i = 0; i < ans.size(); i++) {
+      cout << ans[i] << " ";
+    }
+    cout << "\n";
   }
 }
