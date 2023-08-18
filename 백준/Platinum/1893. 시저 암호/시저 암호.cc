@@ -1,76 +1,87 @@
-#include <cstdio>
-#include <algorithm>
-#include <string>
 #include <iostream>
+#include <queue>
+#include <stack>
+#include <tuple>
+#include <deque>
+#include <string>
+#include <algorithm>
+#include <climits>
+#include <cmath>
+#include <set>
 #include <map>
-#include <vector>
 using namespace std;
+#define X first
+#define Y second
+typedef long long ll;
 int t;
-string a, w, s;
-vector<int> pi;
-vector<int> r;
-void getpi(string b) {
-    pi.clear();
-    pi.resize(b.length());
-    int j = 0;
-    for (int i = 1; i < b.length(); i++) {
-        while (j > 0 && b[i] != b[j])
-            j = pi[j - 1];       
-        if (b[i] == b[j])
-            pi[i] = ++j;     
+vector<int> f;
+string s, p, order;
+vector<int> ans;
+void solve(string a) {
+  f.clear();
+  f.resize(a.length());
+  int j = 0;
+  for(int i = 1; i < a.length(); i++) {
+    while(j > 0 && a[i] != a[j]) {
+      j = f[j-1];
     }
+    if(a[i] == a[j]) {
+      f[i] = ++j;
+    }
+  }
 }
 int kmp(string a, string b) {
-    int j = 0;
-    int ret = 0;
-    for (int i = 0; i < a.length(); i++) {
-        while (j > 0 && a[i] != b[j])
-            j = pi[j - 1];
-        if (a[i] == b[j]) {
-            if (j == b.length() - 1) {
-                ret++;
-                j = pi[j];
-            }
-            else
-                j++;
-        }
+  int k = 0;
+  int cnt = 0;
+  for(int i = 0; i < a.length(); i++) {
+    while(k > 0 && s[i] != p[k]) {
+      k = f[k-1];
     }
-    return ret;
+    if(s[i] == p[k]) {
+      if(k == b.length()-1) {
+        cnt++;
+        k = f[k];
+      }
+      else {
+        k++;
+      }
+    }
+  }
+  return cnt;
 }
+
 int main() {
   ios::sync_with_stdio(0);
   cin.tie(0);
   cin >> t;
-    while (t--) {
-        cin >> a >> w >> s;
-        int n = a.length();
-        r.clear();
-        map<char, int> mp;
-        map<int, char> rmp;
-        for (int i = 0; i < n; i++) {
-            mp[a[i]] = i;
-            rmp[i] = a[i];
-        }
-        for (int i = 0; i < n; i++) {
-            if (i) {
-                for (int j = 0; j < w.length(); j++) {
-                    w[j] = rmp[(mp[w[j]] + 1) % n];
-                }
-            }
-            getpi(w);
-            if (kmp(s, w) == 1)
-                r.push_back(i);
-        }
-        if (!r.size())
-            cout << "no solution\n";
-        else if (r.size() == 1)
-          cout << "unique: " << r[0] << "\n";
-        else {
-            cout << "ambiguous: ";
-            for (int x : r)
-                cout << x << " ";
-            cout << "\n";
-        }
+  while(t--) {
+    cin >> order >> p >> s;
+    int no = order.length();
+    ans.clear();
+    map<char,int> mp;
+    for(int i = 0; i < no; i++) {
+      mp[order[i]] = i;
     }
-    return 0;
+    for(int w = 0; w < no; w++) {
+      if (w > 0) {
+        for (int j = 0; j < p.length(); j++) {
+          p[j] = order[(mp[p[j]] + 1) % no];
+        }
+      }
+      solve(p);
+      if(kmp(s,p) == 1) {
+        ans.push_back(w);
+      }
+    }
+    if (!ans.size())
+      cout << "no solution\n";
+    else if (ans.size() == 1)
+      cout << "unique: " << ans[0] << "\n";
+    else {
+      cout << "ambiguous: ";
+      for (int x : ans)
+          cout << x << " ";
+      cout << "\n";
+    }
+  }
 }
