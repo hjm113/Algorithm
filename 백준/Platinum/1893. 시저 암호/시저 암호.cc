@@ -38,7 +38,9 @@ int kmp(string a, string b) {
     return ret;
 }
 int main() {
-    scanf("%d", &t);
+  ios::sync_with_stdio(0);
+  cin.tie(0);
+  cin >> t;
     while (t--) {
         cin >> a >> w >> s;
         int n = a.length();
@@ -60,14 +62,14 @@ int main() {
                 r.push_back(i);
         }
         if (!r.size())
-            printf("no solution\n");
+            cout << "no solution\n";
         else if (r.size() == 1)
-            printf("unique: %d\n", r[0]);
+          cout << "unique: " << r[0] << "\n";
         else {
-            printf("ambiguous: ");
+            cout << "ambiguous: ";
             for (int x : r)
-                printf("%d ", x);
-            printf("\n");
+                cout << x << " ";
+            cout << "\n";
         }
     }
     return 0;
