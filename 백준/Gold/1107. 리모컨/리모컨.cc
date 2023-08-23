@@ -30,7 +30,6 @@ int main(){
     return 0;
   }
   int up = 2000000000;
-  int out2 = 0;
   for(int i = num; i <= 1000000; i ++) {
     int ch = i;
     int chk = 0;
@@ -46,13 +45,11 @@ int main(){
       ch /= 10;
     }
     if(chk == 0) {
-      out2 = 1;
       up = i;
       break;
     }
   }
   int down = -2000000000;
-  int out1 = 0;
   for(int i = num; i >= 0; i--) {
     int ch = i;
     int chk = 0;
@@ -68,7 +65,6 @@ int main(){
       ch /= 10;
     }
     if(chk == 0) {
-      out1 = 1;
       down = i;
       break;
     }
@@ -82,17 +78,5 @@ int main(){
   int fup = upnum + us;
   int fdo = donum + ud;
   //cout << fup << " " << fdo << " " << abs(fi) << "\n";
-  if(out1 == 1 && out2 == 1) {
-    cout << min(min(fup,fdo),abs(fi));
-  }
-  else if(out1 == 0) {
-    cout << min(fup,abs(fi));
-  }
-  else if(out2 == 0){
-    cout << min(fdo,abs(fi));
-  }
-  else {
-    cout << abs(fi);
-  }
-  
+  cout << min(min(fup,fdo),abs(fi));
 }
