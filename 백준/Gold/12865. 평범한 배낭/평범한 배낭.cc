@@ -7,41 +7,33 @@
 #include <algorithm>
 #include <climits>
 #include <cmath>
+#include <set>
+#include <map>
 using namespace std;
-using ll = long long;
 #define X first
 #define Y second
+typedef long long ll;
+int dp[105][100005];
+int n, k;
 int w[105];
 int v[105];
-int dp[105][100005];
-int n,k;
-int main(void){
+int mx = 0;
+int main(){
   ios::sync_with_stdio(0);
   cin.tie(0);
   cin >> n >> k;
   for(int i = 1; i <= n; i++) {
-    cin >> w[i] >> v[i];
+    cin >> w[i];
+    cin >> v[i];
   }
-  int end = 0;
   for(int i = 1; i <= n; i++) {
-    for(int j = 0; j <= end; j++) {
-      if(j > k) {
+    for(int j = 1; j <= k; j++) {
+      if(j-w[i] < 0) {
+        dp[i][j] = dp[i-1][j];
         continue;
       }
-      dp[i][j] = dp[i-1][j];
+      dp[i][j] = max(dp[i-1][j],dp[i-1][j-w[i]]+v[i]);
     }
-    for(int j = 0; j <= end; j++) {
-      if(w[i]+j > k) {
-        continue;
-      }
-      dp[i][w[i]+j] = max(dp[i][w[i]+j],dp[i-1][j]+v[i]);
-    }
-    /*
-    cout << "\n";
-    for(int i = 0; i < 20; i++) {
-    cout << dp[i] << " ";
-      */
-    end += w[i];
   }
-cout << *max_element(dp[n]+1,dp[n]+k+1);
+  cout << dp[n][k];
 }
