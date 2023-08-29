@@ -78,7 +78,6 @@ int solution(vector<vector<int>> game_board, vector<vector<int>> table) {
             }
             ygo.push_back(ery);
             opos.push_back({mxx-erx+1,mxy-ery+1});
-            //cout << mxx-erx+1 << " " << mxy-ery+1 << "\n";
             cnt++;
         }
     }
@@ -91,31 +90,6 @@ int solution(vector<vector<int>> game_board, vector<vector<int>> table) {
             }
         }
     }
-    /*
-    for(int i = 0; i < opos[2].X; i++) {
-        for(int j = 0; j < opos[2].Y; j++) {
-            cout << tmp[2][i][j];
-        }
-        cout << "\n";
-    }
-    cout << "\n";
-    for(int j = 0; j <= n-opos[2].X; j++) {
-        for(int k = 0; k <= n-opos[2].Y; k++) {
-            cout << j << " " << k << "\n";
-        }
-    }
-*/
-    /*
-    cout << cnt << "\n";
-    cout << opos[cnt-1].X << " " << opos[cnt-1].Y;
-    cout << "\n";
-    for(int i = 0; i < opos[cnt-1].X; i++) {
-        for(int j = 0; j < opos[cnt-1].Y; j++) {
-            cout << tmp[cnt-1][i][j];
-        }
-        cout << "\n";
-    }
-    */
     int sum = 0;
     for(int i = 0; i < cnt; i++) {
         int a = 4;
@@ -186,29 +160,10 @@ int solution(vector<vector<int>> game_board, vector<vector<int>> table) {
             if(out3 == 1) {
                 break;
             }
-            /*
-            for(int o = 0; o < opos[i].X; o++) {
-                for(int p = 0; p < opos[i].Y; p++) {
-                    cout << tmp[i][o][p];
-                }
-                cout << "\n";
-            }
-            cout << "\n";
-            */
             rotate(i,opos[i].X,opos[i].Y);
             int tttmp = opos[i].X;
             opos[i].X = opos[i].Y;
             opos[i].Y = tttmp;
-            /*
-            cout << opos[i].X << " " << opos[i].Y << "\n";
-            for(int o = 0; o < opos[i].X; o++) {
-                for(int p = 0; p < opos[i].Y; p++) {
-                    cout << tmp[i][o][p];
-                }
-                cout << "\n";
-            }
-            cout << "\n";
-            */
         }
         
     }
