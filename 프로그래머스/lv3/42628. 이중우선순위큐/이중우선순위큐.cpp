@@ -2,13 +2,11 @@
 #include <vector>
 #include <iostream>
 #include <queue>
+#include <set>
 #define X first
 #define Y second
 using namespace std;
-int arymx[1000005];
-int arymn[1000005];
-priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>> > pqmn;
-priority_queue<pair<int,int>> pqmx;
+multiset<int> pq;
 vector<int> solution(vector<string> operations) {
     vector<int> answer;
     for(int i = 0; i < operations.size(); i++) {
@@ -19,48 +17,22 @@ vector<int> solution(vector<string> operations) {
         }
         int a = stoi(tmp);
         if(c == 'I') {
-            pqmx.push({a,i});
-            pqmn.push({a,i});
+            pq.insert(a);
         }
-        if(c == 'D' && a == 1) {
-            while(!pqmx.empty()) {
-                if(arymx[pqmx.top().Y] == 0) {
-                    arymn[pqmx.top().Y] = 1;
-                    pqmx.pop();
-                    break;
-                }
-                pqmx.pop();
-            }
+        if(c == 'D' && a == -1 && !pq.empty()) {
+            pq.erase(pq.begin());
         }
-        if(c == 'D' && a == -1) {
-            while(!pqmn.empty()) {
-                if(arymn[pqmn.top().Y] == 0) {
-                    arymx[pqmn.top().Y] = 1;
-                    pqmn.pop();
-                    break;
-                }
-                pqmn.pop();
-            }
+        if(c == 'D' && a == 1 && !pq.empty()) {
+            pq.erase(prev(pq.end()));
         }
     }
-    int mx = 0;
-    while(!pqmx.empty()) {
-        if(arymx[pqmx.top().Y] == 0) {
-            mx = pqmx.top().X;
-            break;
-        }
-        pqmx.pop();
+    if(pq.empty()) {
+        answer.push_back(0);
+        answer.push_back(0);
     }
-    int mn = 0;
-    while(!pqmn.empty()) {
-        if(arymn[pqmn.top().Y] == 0) {
-            mn = pqmn.top().X;
-            break;
-        }
-        pqmn.pop();
+    else {
+        answer.push_back(*prev(pq.end()));
+        answer.push_back(*pq.begin());
     }
-    cout << mx << " " << mn;
-    answer.push_back(mx);
-    answer.push_back(mn);
     return answer;
 }
