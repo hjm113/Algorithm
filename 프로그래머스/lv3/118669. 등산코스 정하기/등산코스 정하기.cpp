@@ -33,6 +33,7 @@ vector<int> solution(int n, vector<vector<int>> paths, vector<int> gates, vector
     for(int i = 0; i < gates.size(); i++) {
         int cur = gates[i];
         for(auto nxt : adj[cur]) {
+            vis[nxt.Y] = min(vis[nxt.Y],nxt.X);
             pq.push({nxt.X,nxt.Y});
         }
     }
@@ -43,19 +44,19 @@ vector<int> solution(int n, vector<vector<int>> paths, vector<int> gates, vector
         if(chk[cur.Y] == 1) {
             continue;
         }
-        if(vis[cur.Y] <= cur.X) {
+        if(vis[cur.Y] != cur.X) {
             continue;
         }
         //cout << cur.X << " " << cur.Y << "\n";
-        vis[cur.Y] = cur.X;
         if(out[cur.Y] == 1) {
             continue;
         }
         for(auto nxt : adj[cur.Y]) {
             int mn = max(vis[cur.Y],nxt.X);
-            if(vis[nxt.Y] < mn) {
+            if(vis[nxt.Y] <= mn) {
                 continue;
             }
+            vis[nxt.Y] = mn;
             pq.push({mn,nxt.Y});
         }
     }
