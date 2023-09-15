@@ -4,9 +4,10 @@
 using namespace std;
 vector<int> adj[20];
 vector<int> info;
+int cut[18][18][18];
 int mx = 0;
 int cnt = 0;
-void dfs(int cur, int sums, int sumw, vector<int> chk , vector<int> vis, int kind) {
+void dfs(int cur, int sums, int sumw, vector<int> chk , vector<int> vis) {
     vis[cur] = 1;
     if(mx < sums) {
         mx = sums;
@@ -17,13 +18,13 @@ void dfs(int cur, int sums, int sumw, vector<int> chk , vector<int> vis, int kin
         }
         vis[nxt] = 1;
         if(chk[nxt] == 1) {
-            dfs(nxt, sums, sumw, chk, vis, 1);
+            dfs(nxt, sums, sumw, chk, vis);
         }
         if(chk[nxt] == 0 && info[nxt] == 0) {
             sums++;
             chk[nxt] = 1;
             vector<int> tmp(17,0);
-            dfs(nxt, sums, sumw, chk, tmp, 0);
+            dfs(nxt, sums, sumw, chk, tmp);
         }
         if(chk[nxt] == 0 && info[nxt] == 1) {
             if(sums <= sumw+1) {
@@ -31,7 +32,7 @@ void dfs(int cur, int sums, int sumw, vector<int> chk , vector<int> vis, int kin
             }
             sumw++;
             chk[nxt] = 1;
-            dfs(nxt, sums, sumw, chk, vis, 0);
+            dfs(nxt, sums, sumw, chk, vis);
             chk[nxt] = 0;
             sumw--;
         }
@@ -56,7 +57,7 @@ int solution(vector<int> inf, vector<vector<int>> edges) {
         vis.push_back(0);
     }
     chk[0] = 1;
-    dfs(0, 1, 0, chk, vis, 0);
+    dfs(0, 1, 0, chk, vis);
     cout << mx;
     answer = mx;
     return answer;
