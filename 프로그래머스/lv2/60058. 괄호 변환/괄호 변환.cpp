@@ -68,8 +68,7 @@ string spl(string s) {
                 tmp += "(";
             }
         }
-        string val = "(" + spl(v) + ")" + tmp;
-        return val;
+        return "(" + spl(v) + ")" + tmp;
     }
 }
 
