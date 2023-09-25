@@ -12,21 +12,18 @@ void dfs(int cur) {
     if(adj[cur].size() == 0) {
         return;
     }
-    int mx = 200000000;
+    dp[0][cur] = lst[cur];
     int chk = 0;
     for(auto nxt : adj[cur]) {
         dfs(nxt);
-        if(mx > dp[1][nxt]-dp[0][nxt]) {
-            mx = dp[1][nxt]-dp[0][nxt];
-        }
-        if(dp[1][nxt] < dp[0][nxt]) {
+        if(dp[0][nxt] == dp[1][nxt]) {
             chk = 1;
         }
-        dp[0][cur] += min(dp[0][nxt],dp[1][nxt]);
-        dp[1][cur] += min(dp[0][nxt],dp[1][nxt]);
+        dp[0][cur] += dp[0][nxt];
+        dp[1][cur] += dp[0][nxt];
     }
-    if(chk == 0) {
-        dp[0][cur] += mx;
+    if(chk == 1) {
+        dp[0][cur] -= lst[cur];
     }
 }
 int solution(vector<int> sales, vector<vector<int>> links) {
@@ -52,8 +49,8 @@ int solution(vector<int> sales, vector<vector<int>> links) {
         }
     }
     dfs(1);
-    //cout << dp[0][1] << " " << dp[1][1] << "asdfsdf\n";
+    cout << dp[0][1] << " " << dp[1][1] << "asdfsdf\n";
     answer = min(dp[0][1],dp[1][1]);
-    //cout << dp[0][10] << " " << dp[1][10] << " " << lst[3];
+    cout << dp[0][5] << " " << dp[1][5] << " " << lst[5];
     return answer;
 }
