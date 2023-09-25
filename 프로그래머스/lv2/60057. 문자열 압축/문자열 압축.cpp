@@ -2,12 +2,11 @@
 #include <vector>
 #include <iostream>
 using namespace std;
-int mx = 2000000000;
 int solution(string s) {
-    int answer = 0;
     int n = s.length();
+    int answer = n;
     string ans = "";
-    for(int i = 1; i <= n/2+1; i++) {
+    for(int i = 1; i <= n/2; i++) {
         for(int j = 0; j < n; j+=i) {
             int idx = j;
             string tmp = s.substr(j,i);
@@ -24,12 +23,11 @@ int solution(string s) {
             }
             j = idx-i;
         }
-        if(mx > ans.length()) {
-            mx = ans.length();
+        if(answer > ans.length()) {
+            answer = ans.length();
         }
         //cout << ans << "\n";
         ans = "";
     }
-    answer = mx;
     return answer;
 }
