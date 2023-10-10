@@ -7,13 +7,11 @@ using namespace std;
 typedef long long ll;
 vector<ll> num;
 vector<char> sign;
-vector<ll> tmpn;
-vector<char> tmps;
 vector<char> order;
 map<char,int> mp;
 long long solution(string expression) {
     long long answer = 0;
-    string s1 = "";
+    string tmp = "";
     int c1 = 0;
     int c2 = 0;
     int c3 = 0;
@@ -23,68 +21,83 @@ long long solution(string expression) {
                 order.push_back(expression[i]);
                 mp[expression[i]] = 1;
             }
-            tmpn.push_back(stol(s1));
-            s1 = "";
-            tmps.push_back(expression[i]);
+            num.push_back(stol(tmp));
+            tmp = "";
+            sign.push_back(expression[i]);
             continue;
         }
-        s1 += expression[i];
-        if(i == expression.length()-1) {
-            tmpn.push_back(stol(s1));
-        }
+        tmp += expression[i];
     }
     sort(order.begin(),order.end());
-    /*
-    for(int i = 0; i < tmpn.size(); i++) {
-        cout << tmpn[i] << " ";
-    }
-    cout <<"\n";
-    for(int i = 0; i < tmps.size(); i++) {
-        cout << tmps[i] << " ";
-    }
-    */
     do {
-        for(int i = 0; i < tmpn.size(); i++) {
-            num.push_back(tmpn[i]);
-        }
-        for(int i = 0; i < tmps.size(); i++) {
-            sign.push_back(tmps[i]);
-        }
+        string tmp = expression;
         for(int i = 0; i < order.size(); i++) {
-            for(int j = 0; j < sign.size(); j++) {
-                if(sign[j] == order[i]) {
+            string s = "";
+            string chk = "";
+            //cout << order[i] << "\n";
+            for(int j = 0; j < tmp.length(); j++) {
+                if(tmp[j] == order[i]) {
+                    ll a = stol(chk);
+                    chk = "";
+                    int idx = j+1;
+                    chk += tmp[idx];
+                    idx++;
+                    while(idx < tmp.length() && tmp[idx] >= '0' && tmp[idx] <= '9') {
+                        chk += tmp[idx];
+                        idx++;
+                    }
+                    ll b = stol(chk);
+                    //cout << a << " " << b <<"\n";
                     ll sum = 0;
-                    if(sign[j] == '*') {
-                        sum = num[j]*num[j+1];
+                    if(order[i] == '*') {
+                        sum = a*b;
                     }
-                    if(sign[j] == '+') {
-                        sum = num[j]+num[j+1];
+                    if(order[i] == '+') {
+                        sum = a+b;
                     }
-                    if(sign[j] == '-') {
-                        sum = num[j]-num[j+1];
+                    if(order[i] == '-') {
+                        sum = a-b;
                     }
-                    sign.erase(sign.begin()+j);
-                    num[j] = sum;
-                    num.erase(num.begin()+j+1);
-                    j--;
+                    j = idx-1;
+                    //cout << sum << "\n";
+                    if(tmp[idx] == order[i]) {
+                        chk = to_string(sum);
+                    }
+                    else {
+                        chk = to_string(sum);
+                        if(s[s.length()-1] == '-') {
+                            if(chk[0] == '-') {
+                                s = s.substr(0,s.length()-1);
+                                s += chk.substr(1);
+                                chk = "";
+                                continue;
+                            }
+                        }
+                        s += chk;
+                        chk = "";
+                    }
+                    continue;
+                }
+                if(tmp[j] == '*' || tmp[j] == '-' || tmp[j] == '+' ) {
+                    //cout << chk << "\n";
+                    s += chk;
+                    s += tmp[j];
+                    chk = "";
+                    continue;
+                }
+                chk += tmp[j];
+                if(j == tmp.length()-1) {
+                    s += chk;
                 }
             }
+            tmp = s;
+            cout << tmp << "\n";
         }
-        /*
-        for(int i = 0; i < num.size(); i++) {
-            cout << num[i] << " ";
+        cout << tmp << "\n";
+        if(answer < abs(stol(tmp))) {
+            answer = abs(stol(tmp));
         }
-        cout <<"\n";
-        for(int i = 0; i < sign.size(); i++) {
-            cout << sign[i] << " ";
-        }
-        */
-        if(answer < abs(num[0])) {
-            answer = abs(num[0]);
-        }
-        num.clear();
-        sign.clear();
+        //cout << "\n";
     }while(next_permutation(order.begin(),order.end()));
-    
     return answer;
 }
